@@ -1,16 +1,44 @@
 # Decorators
+import datetime
+import sys, argparse
+
+now = datetime.datetime.now()
 
 
-def swap()
+def decorator_maker(path:str):
+
+    def decor_log(func):
+        def wrapper():
+            res = func()
+            now = datetime.datetime.now()
+            t = now
+            with open(path, "a") as file:
+                file.write(f"{str(t)} \n ------------- \n {str(res)} \n")
+        return wrapper
+    return decor_log
+
+@decorator_maker('./mipt_logs.txt')
+def ord_func():
+    print('I am working')
+
+ord_func()
 
 
-def div(x, y, show=False):
-    res = x / y
-    if show:
-        print(res)
-    return res
+# def swap(func):
+#     def wrapper(arg1, arg2, **kwargs):
+#         return func(arg2,arg1, **kwargs)
+#     return wrapper
 
-div(2, 4, show=True)
+
+
+# @swap
+# def div(x, y, show=False):
+#     res = x / y
+#     if show:
+#         print(res)
+#     return res
+
+# div(2, 4, show=True)
 
 
 # def decorator_maker_with_arguments(decorator_arg1, decorator_arg2):
@@ -62,9 +90,6 @@ div(2, 4, show=True)
 
 
 
-
-
-
 # def fib(n):
     
 #     if n in (1,2):
@@ -84,7 +109,7 @@ div(2, 4, show=True)
 
 
 
-
+## ARGPARSE
 
 # import sys
 # import argparse
