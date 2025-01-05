@@ -1,27 +1,49 @@
 # Decorators
-import datetime
-import sys, argparse
-
-now = datetime.datetime.now()
-
-
-def decorator_maker(path:str):
-
-    def decor_log(func):
-        def wrapper():
-            res = func()
-            now = datetime.datetime.now()
-            t = now
-            with open(path, "a") as file:
-                file.write(f"{str(t)} \n ------------- \n {str(res)} \n")
+def iter(iters):
+    def timeit(func):
+        total=0
+        def wrapper(*args,**kwargs):
+            import time
+            for i in range(iters):
+                start = time.time()
+                func(*args, **kwargs)
+                end = time.time()
+                print(f'The function was workin {(end - start):.2f} seconds - that is {i} time')
         return wrapper
-    return decor_log
+    return timeit
 
-@decorator_maker('./mipt_logs.txt')
-def ord_func():
-    print('I am working')
+@iter(iters=10)
+def web(url):
+    import requests
+    answer = requests.get(url)
+    print(answer.status_code)
+    return answer
 
-ord_func()
+web('https://pypi.org/project/requests/')
+
+# import datetime
+# import sys, argparse
+
+# now = datetime.datetime.now()
+
+
+# def decorator_maker(path:str):
+
+#     def decor_log(func):
+#         def wrapper():
+#             res = func()
+#             now = datetime.datetime.now()
+#             t = now
+#             with open(path, "a") as file:
+#                 file.write(f"{str(t)} \n ------------- \n {str(res)} \n")
+#         return wrapper
+#     return decor_log
+
+# @decorator_maker('./mipt_logs.txt')
+# def ord_func():
+#     print('I am working')
+
+# ord_func()
 
 
 # def swap(func):
